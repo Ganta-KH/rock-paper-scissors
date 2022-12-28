@@ -7,12 +7,8 @@ function getComputerChoice() {
     }
 }
 
-function capitalize(string) {
-    return string.charAt(0).toUpperCase() + string.slice(1).toLowerCase();
-}
 
 function gameRound(playerSelection, computerSelection) {
-    playerSelection = capitalize(playerSelection);
     if (playerSelection === computerSelection) {
         return `It's a Draw! ${playerSelection} and ${computerSelection}`;
     }
@@ -23,34 +19,80 @@ function gameRound(playerSelection, computerSelection) {
     }
 }
 
-function game() {
-    let playerScore = 0;
-    let computerScore = 0;
-    for (let i = 0; i < 5; i++) {
-        playerSelection = prompt('Please Enter Your Choice: ');
-        computerSelection = getComputerChoice();
-        result = gameRound(playerSelection, computerSelection);
-        console.log(result);
-        if (result.includes('Won')) {
-            playerScore++;
-        } else if (result.includes('Lose')) {
-            computerScore++;
-        }
-    }
-
-    if (playerScore > computerScore) {
-        return `You won! Congratulation`;
-    } else if (playerScore < computerScore) {
-        return `You Lose! Better Luck Next Time`
+function endGame(playerScore, computerScore) {
+    const div = document.querySelector('#box');
+    div.classList.add('box');        
+    if (playerScore == computerScore) {
+        div.textContent = 'It a Draw';
+    } else if (playerScore > computerScore) {
+        div.textContent = 'Congratulation You Won'
     } else {
-        return `It's a Draw!`
+        div.textContent = 'Game Over'
     }
+    container.appendChild(div)    
 }
 
-console.log(game())
+function selectComputerChoice(choice) {
+    const item = document.querySelector('.'+choice.toLowerCase());
+    item.classList.add('select');
+}
 
-/*
-const playerSelection = 'rock';
-const computerSelection = getComputerChoice();
-console.log(gameRound(playerSelection, computerSelection));
-*/
+function removeComputerChoice() {
+    const rock = document.querySelector('.rock');
+    const paper = document.querySelector('.paper');
+    const scissors = document.querySelector('.scissors');
+    rock.classList.remove('select');
+    paper.classList.remove('select');
+    scissors.classList.remove('select');
+}
+
+function startGame() {
+    const div = document.querySelector('#box');
+    div.textContent = "";
+    div.classList.remove('box');
+}
+
+
+const result = document.querySelector('.result');
+const comment = document.querySelector('.comment');
+const you = document.querySelector('.you');
+const ai = document.querySelector('.ai');
+let playerScore = 0;
+let computerScore = 0;
+
+const weapons = document.querySelectorAll('.item');
+
+
+weapons.forEach((weapon) => {
+    weapon.addEventListener('click', () => {
+        if (playerScore == 5 || computerScore == 5) {
+            startGame();
+            playerScore = 0;
+            computerScore = 0;
+            you.textContent = `Player: ${0}`
+            ai.textContent = `Computer: ${0}`
+        }
+
+        removeComputerChoice();
+        weapons.forEach((w) => {
+            w.classList.remove('select');
+        })
+        weapon.classList.add('select');
+        
+        const computerChoice = getComputerChoice();
+        selectComputerChoice(computerChoice);
+        const resultText = gameRound(weapon.textContent, computerChoice).split('! ');
+        result.textContent = resultText[0];
+        comment.textContent = resultText[1];
+        if (resultText[0].includes('Won')) {playerScore++};
+        if (resultText[0].includes('Lose')) {computerScore++};
+        you.textContent = `Player: ${playerScore}`
+        ai.textContent = `Computer: ${computerScore}`
+        if (playerScore == 5 || computerScore == 5) {
+            endGame(playerScore, computerScore);
+
+            result.textContent = 'Choose Your Object';
+            comment.textContent = 'First To Score 5 Wins The Game';
+        }
+    });
+});
