@@ -1,6 +1,81 @@
+html, body {
+    width: 100%;
+    height: 100%;
+}
+
+body, .game, .player, .scores, .container {
+    display: flex;
+}
+
 body {
     font-family: 'Games', sans-serif;
-    display: flex;
     flex-direction: column;
+    color: #C69749;
+    margin: 0;
+}
+
+h1 {
+    margin: 0;
+}
+
+.header, .footer {
+    background-color: #000000;
+    padding: 48px;
+    text-align: center;
+    font-size: 48px;
+}
+
+.game {
+    background-color: #282A3A;
+    padding: 48px;
+    justify-content: space-around;
+    align-items: center;
+    flex: 1;
+    gap: 18px;
+}
+
+.player {
+    flex-direction: column;
+    gap: 18px;
+    justify-content: center;
+}
+
+.container {
+    text-align: center;
+    font-size: 18px;
+    flex-direction: column;
+    gap: 24px;
+}
+
+.scores {
+    justify-content: space-around;
+}
+
+.comment {
+    font-size: 22px;
+}
+
+button {
+    width: 130px;
+    height: 130px;
+    border: none;
+    background-color: #C69749;
+    color: #000000;
+    border-radius: 10px;
+    font-size: 22px;
+    font-family: 'Games', sans-serif;
+}
+
+button:hover {
+    background-color: #735F32;
+}
+
+.footer {
+    padding: 24px;
+    font-size: 18px;
+}
+
+.click {
+    border: 4px solid yellow;
 }
 
